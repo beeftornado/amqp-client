@@ -36,7 +36,7 @@ object Consumer4 extends App {
 
     override def unhandled(message: Any): Unit = message match {
       case Delivery(consumerTag, envelope, properties, body) =>
-        log.info(s"received message ${new String(body)}")
+        log.info("received message %s" format (new String(body)))
         sender ! Ack(envelope.getDeliveryTag)
       case Amqp.Ok(_, _) => ()
     }
@@ -49,19 +49,19 @@ object Consumer4 extends App {
 
     def usingConsumer(consumer: ActorRef): Receive = {
       case ('switch, queue: String) =>
-        log.info(s"switch to queue $queue")
+        log.info("switch to queue %s" format queue)
         consumer ! AddQueue(QueueParameters(name = queue, passive = true))
       case Amqp.Ok(AddQueue(_), Some(consumerTag: String)) =>
-        log.info(s"using consumer tag $consumerTag")
+        log.info("using consumer tag %s" format consumerTag)
         context.become(usingConsumer(consumer, consumerTag))
     }
 
     def usingConsumer(consumer: ActorRef, consumerTag: String): Receive = {
       case ('switch, queue: String) =>
-        log.info(s"switch to queue $queue")
+        log.info("switch to queue %s" format queue)
         consumer ! AddQueue(QueueParameters(name = queue, passive = true))
       case Amqp.Ok(AddQueue(_), Some(newConsumerTag: String)) =>
-        log.info(s"cancelling $consumerTag, using $newConsumerTag")
+        log.info("cancelling %s, using %s" format (consumerTag, newConsumerTag))
         consumer ! CancelConsumer(consumerTag)
         context.become(usingConsumer(consumer, newConsumerTag))
     }

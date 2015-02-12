@@ -1,17 +1,12 @@
 package com.github.sstone.amqp
 
+import akka.testkit.TestProbe
+import com.github.sstone.amqp.Amqp.{Binding, Delivery, Publish, _}
+import com.rabbitmq.client.AMQP.BasicProperties
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-import akka.testkit.TestProbe
-import akka.actor.Props
-import concurrent.duration._
-import com.rabbitmq.client.AMQP.BasicProperties
-import com.github.sstone.amqp.Amqp._
-import com.github.sstone.amqp.Amqp.Publish
-import com.github.sstone.amqp.Amqp.ExchangeParameters
-import com.github.sstone.amqp.Amqp.Binding
-import com.github.sstone.amqp.Amqp.QueueParameters
-import com.github.sstone.amqp.Amqp.Delivery
+
+import scala.concurrent.duration._
 
 @RunWith(classOf[JUnitRunner])
 class ProducerSpec extends ChannelSpec {
@@ -31,7 +26,7 @@ class ProducerSpec extends ChannelSpec {
       fishForMessage(1 second) {
         case Amqp.Ok(AddBinding(Binding(`exchange`, `queue`, `routingKey`)), _) => true
         case msg => {
-          println(s"unexpected $msg")
+          println("unexpected %s" format msg)
           false
         }
       }

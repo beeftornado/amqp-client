@@ -23,7 +23,7 @@ object Consumer1 extends App {
   val listener = system.actorOf(Props(new Actor {
     def receive = {
       case Delivery(consumerTag, envelope, properties, body) => {
-        println("got a message: " + new String(body))
+        println("got a message: %s" format (new String(body)))
         sender ! Ack(envelope.getDeliveryTag)
       }
     }

@@ -29,7 +29,7 @@ object ChannelOwner {
       Try(channel.close())
     }
 
-    override def unhandled(message: Any): Unit = log.warning(s"unhandled message $message")
+    override def unhandled(message: Any): Unit = log.warning("unhandled message %s" format message)
 
     def receive = {
       case request@AddShutdownListener(listener) => {
@@ -106,7 +106,7 @@ object ChannelOwner {
         sender ! withChannel(channel, request)(c => c.basicReject(deliveryTag, requeue))
       }
       case request@CreateConsumer(listener) => {
-        log.debug(s"creating new consumer for listener $listener")
+        log.debug("creating new consumer for listener %o" format listener)
         sender ! withChannel(channel, request)(c => new DefaultConsumer(channel) {
           override def handleDelivery(consumerTag: String, envelope: Envelope, properties: BasicProperties, body: Array[Byte]) {
             listener ! Delivery(consumerTag, envelope, properties, body)
@@ -157,7 +157,7 @@ class ChannelOwner(init: Seq[Request] = Seq.empty[Request], channelParams: Optio
 
   import ChannelOwner._
 
-  var requestLog: Vector[Request] = init.toVector
+  var requestLog: Vector[Request] = Vector() ++ init
   val statusListeners = mutable.HashSet.empty[ActorRef]
 
   override def preStart() = context.parent ! ConnectionOwner.CreateChannel
@@ -168,7 +168,7 @@ class ChannelOwner(init: Seq[Request] = Seq.empty[Request], channelParams: Optio
       statusListeners.remove(actor)
     }
     case _ => {
-      log.warning(s"unhandled message $message")
+      log.warning("unhandled message %s" format message)
       super.unhandled(message)
     }
   }
@@ -186,7 +186,7 @@ class ChannelOwner(init: Seq[Request] = Seq.empty[Request], channelParams: Optio
       forwarder ! AddReturnListener(self)
       onChannel(channel, forwarder)
       requestLog.map(r => self forward r)
-      log.info(s"got channel $channel")
+      log.info("got channel %o" format channel)
       statusListeners.map(a => a ! Connected)
       context.become(connected(channel, forwarder))
     }

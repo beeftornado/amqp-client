@@ -34,7 +34,7 @@ object Bug30Spec {
     def receive = {
       case Delivery(consumerTag, envelope, properties, body) => {
         val replyTo = sender
-        log.info(s"receive deliveryTag ${envelope.getDeliveryTag} from $replyTo")
+        log.info("receive deliveryTag %s from %s" format (envelope.getDeliveryTag, replyTo))
         // wait 500 milliseconds before acking tne message: this makes sure that there are pending acknowledgments when the
         // consumer crashes
         context.system.scheduler.scheduleOnce(500 milliseconds, replyTo, Ack(envelope.getDeliveryTag))

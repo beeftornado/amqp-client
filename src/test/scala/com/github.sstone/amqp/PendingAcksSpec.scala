@@ -30,7 +30,7 @@ class PendingAcksSpec extends ChannelSpec with WordSpecLike {
         new Act with ActorLogging {
           become {
             case Delivery(consumerTag, envelope, properties, body) => {
-              log.info(s"received ${new String(body, "UTF-8")} tag = ${envelope.getDeliveryTag} redeliver = ${envelope.isRedeliver}")
+              log.info("received %s tag = %s redeliver = %s" format (new String(body, "UTF-8"), envelope.getDeliveryTag, envelope.isRedeliver))
               counter = counter + 1
               if (counter == 10) probe.ref ! 'done
             }
@@ -59,7 +59,7 @@ class PendingAcksSpec extends ChannelSpec with WordSpecLike {
         new Act with ActorLogging {
           become {
             case Delivery(consumerTag, envelope, properties, body) => {
-              log.info(s"received ${new String(body, "UTF-8")} tag = ${envelope.getDeliveryTag} redeliver = ${envelope.isRedeliver}")
+              log.info("received %s tag = %s redeliver = %s" format (new String(body, "UTF-8"), envelope.getDeliveryTag, envelope.isRedeliver))
               counter1 = counter1 + 1
               sender ! Ack(envelope.getDeliveryTag)
               if (counter1 == 10) probe.ref ! 'done
