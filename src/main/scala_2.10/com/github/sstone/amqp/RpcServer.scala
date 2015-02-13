@@ -1,13 +1,13 @@
 package com.github.sstone.amqp
 
-import Amqp._
-import com.rabbitmq.client.AMQP.BasicProperties
-import com.rabbitmq.client.{Envelope, Channel}
-import concurrent.{ExecutionContext, Future}
-import util.{Failure, Success}
 import akka.actor.{ActorRef, Props}
 import akka.event.LoggingReceive
-import scala.concurrent.ExecutionContext
+import com.github.sstone.amqp.Amqp._
+import com.rabbitmq.client.AMQP.BasicProperties
+import com.rabbitmq.client.{Channel, Envelope}
+
+import scala.concurrent.{ExecutionContext, Future}
+import scala.util.{Failure, Success}
 
 object RpcServer {
 
@@ -61,7 +61,7 @@ object RpcServer {
  * @param channelParams optional channel parameters
  */
 class RpcServer(processor: RpcServer.IProcessor, init: Seq[Request] = Seq.empty[Request], channelParams: Option[ChannelParameters] = None)(implicit ctx: ExecutionContext = ExecutionContext.Implicits.global) extends Consumer(listener = None, autoack = false, init = init, channelParams = channelParams) {
-  import RpcServer._
+  import com.github.sstone.amqp.RpcServer._
 
   private def sendResponse(result: ProcessResult, properties: BasicProperties, channel: Channel) {
     result match {

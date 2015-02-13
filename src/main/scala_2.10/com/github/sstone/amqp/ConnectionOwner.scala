@@ -1,17 +1,17 @@
 package com.github.sstone.amqp
 
-import Amqp._
+import java.util.concurrent.ExecutorService
+
 import akka.actor._
 import akka.dispatch.Await
 import akka.event.LoggingReceive
 import akka.pattern.ask
+import akka.util.duration._
 import akka.util.{FiniteDuration, Timeout}
-import com.rabbitmq.client.{Connection, ShutdownSignalException, ShutdownListener, ConnectionFactory, Address => RMQAddress}
-import scala.concurrent.{Await, ExecutionContext}
-import concurrent.duration._
-import java.util.concurrent.ExecutorService
+import com.github.sstone.amqp.Amqp._
+import com.rabbitmq.client.{Address => RMQAddress, Connection, ConnectionFactory, ShutdownListener, ShutdownSignalException}
+
 import scala.util.{Failure, Success, Try}
-import collection.JavaConversions._
 
 object ConnectionOwner {
 
@@ -78,8 +78,7 @@ class ConnectionOwner(connFactory: ConnectionFactory,
                       executor: Option[ExecutorService] = None,
                       addresses: Option[Array[RMQAddress]] = None) extends Actor with ActorLogging {
 
-  import ConnectionOwner._
-  import context.dispatcher
+  import com.github.sstone.amqp.ConnectionOwner._
 
   var connection: Option[Connection] = None
   val statusListeners = collection.mutable.HashSet.empty[ActorRef]

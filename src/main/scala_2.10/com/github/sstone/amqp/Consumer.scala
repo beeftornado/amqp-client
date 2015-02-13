@@ -1,10 +1,10 @@
 package com.github.sstone.amqp
 
-import Amqp._
-import akka.actor.{UnboundedStash, UnrestrictedStash, Props, ActorRef}
-import com.rabbitmq.client.{Envelope, Channel, DefaultConsumer}
-import com.rabbitmq.client.AMQP.BasicProperties
+import akka.actor.{ActorRef, Props}
 import akka.event.LoggingReceive
+import com.github.sstone.amqp.Amqp._
+import com.rabbitmq.client.AMQP.BasicProperties
+import com.rabbitmq.client.{Channel, DefaultConsumer, Envelope}
 
 object Consumer {
   def props(listener: Option[ActorRef], autoack: Boolean = false, init: Seq[Request] = Seq.empty[Request], channelParams: Option[ChannelParameters] = None): Props =
@@ -22,7 +22,7 @@ object Consumer {
  * @param channelParams optional channel parameters
  */
 class Consumer(listener: Option[ActorRef], autoack: Boolean = false, init: Seq[Request] = Seq.empty[Request], channelParams: Option[ChannelParameters] = None) extends ChannelOwner(init, channelParams) with UnboundedStash {
-  import ChannelOwner._
+  import com.github.sstone.amqp.ChannelOwner._
   var consumer: Option[DefaultConsumer] = None
 
   override def onChannel(channel: Channel, forwarder: ActorRef): Unit = {

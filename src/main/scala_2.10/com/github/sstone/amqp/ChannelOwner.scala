@@ -1,15 +1,14 @@
 package com.github.sstone.amqp
 
-import collection.JavaConversions._
+import akka.actor._
+import akka.event.LoggingReceive
+import com.github.sstone.amqp.Amqp._
 import com.rabbitmq.client.AMQP.BasicProperties
 import com.rabbitmq.client._
-import akka.actor._
-import com.github.sstone.amqp.Amqp._
-import scala.util.Try
-import scala.util.Failure
-import scala.util.Success
-import akka.event.LoggingReceive
+
+import scala.collection.JavaConversions._
 import scala.collection.mutable
+import scala.util.{Failure, Success, Try}
 
 object ChannelOwner {
 
@@ -155,7 +154,7 @@ object ChannelOwner {
 
 class ChannelOwner(init: Seq[Request] = Seq.empty[Request], channelParams: Option[ChannelParameters] = None) extends Actor with ActorLogging {
 
-  import ChannelOwner._
+  import com.github.sstone.amqp.ChannelOwner._
 
   var requestLog: Vector[Request] = Vector() ++ init
   val statusListeners = mutable.HashSet.empty[ActorRef]

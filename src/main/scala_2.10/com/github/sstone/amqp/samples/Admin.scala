@@ -1,12 +1,15 @@
 package com.github.sstone.amqp.samples
 
-import akka.actor.{ActorRef, Actor, Props, ActorSystem}
-import com.github.sstone.amqp.Amqp.{AddStatusListener, QueueParameters, DeclareQueue}
+import akka.actor.{Actor, ActorRef, ActorSystem, Props, _}
+import com.github.sstone.amqp.Amqp.{AddStatusListener, DeclareQueue, QueueParameters}
 import com.github.sstone.amqp.ConnectionOwner.Create
-import com.github.sstone.amqp.{ConnectionOwner, Amqp, ChannelOwner}
+import com.github.sstone.amqp.{Amqp, ChannelOwner, ConnectionOwner}
 import com.rabbitmq.client.AMQP.Queue
 import com.rabbitmq.client.ConnectionFactory
-import concurrent.duration._
+import akka.util._
+import akka.util.duration
+import akka.util.Duration
+import akka.util.DurationInt
 
 class AdminActor extends Actor {
   val connFactory = new ConnectionFactory()

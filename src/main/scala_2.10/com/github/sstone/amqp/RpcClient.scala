@@ -1,10 +1,10 @@
 package com.github.sstone.amqp
 
-import akka.actor.{Props, ActorRef}
+import akka.actor.{ActorRef, Props}
 import akka.event.LoggingReceive
 import com.github.sstone.amqp.Amqp._
 import com.rabbitmq.client.AMQP.BasicProperties
-import com.rabbitmq.client.{Envelope, Channel, DefaultConsumer}
+import com.rabbitmq.client.{Channel, DefaultConsumer, Envelope}
 
 object RpcClient {
 
@@ -26,7 +26,7 @@ object RpcClient {
 
 class RpcClient(channelParams: Option[ChannelParameters] = None) extends ChannelOwner(channelParams = channelParams) {
 
-  import RpcClient._
+  import com.github.sstone.amqp.RpcClient._
 
   var queue: String = ""
   var consumer: Option[DefaultConsumer] = None
