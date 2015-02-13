@@ -6,14 +6,10 @@ import com.github.sstone.amqp.ConnectionOwner.Create
 import com.github.sstone.amqp.{Amqp, ChannelOwner, ConnectionOwner}
 import com.rabbitmq.client.AMQP.Queue
 import com.rabbitmq.client.ConnectionFactory
-import akka.util._
-import akka.util.duration
-import akka.util.Duration
-import akka.util.DurationInt
 
 class AdminActor extends Actor {
   val connFactory = new ConnectionFactory()
-  val conn = context.actorOf(ConnectionOwner.props(connFactory, reconnectionDelay = 10 seconds))
+  val conn = context.actorOf(ConnectionOwner.props(connFactory))
   conn ! AddStatusListener(self)
 
   def receive = {

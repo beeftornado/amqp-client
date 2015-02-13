@@ -1,20 +1,15 @@
 package com.github.sstone.amqp
 
-import org.scalatest.junit.JUnitRunner
-import org.junit.runner.RunWith
+import akka.actor.{Actor, ActorLogging, ActorRef, Props, _}
 import akka.testkit.TestProbe
+import akka.util.duration._
 import com.github.sstone.amqp.Amqp._
-import akka.actor.{Props, ActorLogging, ActorRef, Actor}
-import com.github.sstone.amqp.ConnectionOwner.Create
-import scala.concurrent.duration._
-import com.github.sstone.amqp.Amqp.Ack
-import com.github.sstone.amqp.Amqp.Publish
-import com.github.sstone.amqp.Amqp.QueueParameters
-import com.github.sstone.amqp.Amqp.Delivery
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
+import com.github.sstone.amqp.Amqp.{Ack, Delivery, Publish, QueueParameters}
 
 object Bug30Spec {
   class Listener(conn: ActorRef, tellMeWhenYoureDone: ActorRef) extends Actor with ActorLogging {
-    import concurrent.ExecutionContext.Implicits.global
 
     val consumer = ConnectionOwner.createChildActor(conn, Consumer.props(
       self,

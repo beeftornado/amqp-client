@@ -1,24 +1,18 @@
 package com.github.sstone.amqp
 
-import org.scalatest.junit.JUnitRunner
-import org.junit.runner.RunWith
-import concurrent.{Await, Future}
-import concurrent.duration._
-import concurrent.ExecutionContext.Implicits.global
-import akka.actor.Props
-import akka.pattern.ask
-import com.rabbitmq.client.AMQP.BasicProperties
-import com.github.sstone.amqp.RpcServer._
-import com.github.sstone.amqp.Amqp._
-import com.github.sstone.amqp.RpcServer.ProcessResult
-import com.github.sstone.amqp.Amqp.Publish
-import com.github.sstone.amqp.RpcClient.Response
-import com.github.sstone.amqp.RpcClient.Undelivered
-import com.github.sstone.amqp.Amqp.ExchangeParameters
-import com.github.sstone.amqp.RpcClient.Request
-import com.github.sstone.amqp.Amqp.QueueParameters
-import com.github.sstone.amqp.Amqp.Delivery
 import java.util.concurrent.TimeUnit
+
+import akka.pattern.ask
+import akka.util.duration._
+import com.github.sstone.amqp.Amqp.{Delivery, ExchangeParameters, Publish, QueueParameters, _}
+import com.github.sstone.amqp.RpcClient.{Request, Response, Undelivered}
+import com.github.sstone.amqp.RpcServer.{ProcessResult, _}
+import com.rabbitmq.client.AMQP.BasicProperties
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{Await, Future}
 
 @RunWith(classOf[JUnitRunner])
 class RpcSpec extends ChannelSpec {

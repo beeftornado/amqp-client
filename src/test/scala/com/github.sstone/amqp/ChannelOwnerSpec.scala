@@ -1,16 +1,18 @@
 package com.github.sstone.amqp
 
-import org.scalatest.junit.JUnitRunner
-import org.junit.runner.RunWith
-import akka.testkit.TestProbe
-import akka.actor.{Props, Actor, DeadLetter}
-import akka.pattern.gracefulStop
 import java.util.concurrent.{CountDownLatch, TimeUnit}
-import concurrent.duration._
-import com.rabbitmq.client.AMQP.Queue
+
+import akka.actor.{Actor, DeadLetter, Props}
+import akka.pattern.gracefulStop
+import akka.testkit.TestProbe
+import akka.util.duration._
 import com.github.sstone.amqp.Amqp._
-import com.rabbitmq.client.GetResponse
 import com.github.sstone.amqp.ChannelOwner.NotConnectedError
+import com.rabbitmq.client.AMQP.Queue
+import com.rabbitmq.client.GetResponse
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
+
 import scala.concurrent.Await
 
 @RunWith(classOf[JUnitRunner])

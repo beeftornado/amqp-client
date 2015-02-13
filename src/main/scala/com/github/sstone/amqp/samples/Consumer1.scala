@@ -9,14 +9,14 @@ import scala.concurrent.duration._
 /**
  * simple Consumer sample
  * to run the sample:
- * mvn exec:java -Dexec.classpathScope="test" -Dexec.mainClass=com.github.sstone.amqp.samples.Consumer1
+ * mvn exec:java -Dexec.classpathScope="test" -Dexec.mainClass=com.github.sstone.com.github.sstone.amqp.amqp.samples.Consumer1
  */
 object Consumer1 extends App {
   implicit val system = ActorSystem("mySystem")
 
   // create an AMQP connection
   val connFactory = new ConnectionFactory()
-  connFactory.setUri("amqp://guest:guest@localhost/%2F")
+  connFactory.setUri("com.github.sstone.amqp.amqp://guest:guest@localhost/%2F")
   val conn = system.actorOf(ConnectionOwner.props(connFactory, 1 second))
 
   // create an actor that will receive AMQP deliveries

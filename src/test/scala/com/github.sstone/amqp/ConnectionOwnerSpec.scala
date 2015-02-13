@@ -1,19 +1,21 @@
 package com.github.sstone.amqp
 
-import org.scalatest.matchers.ShouldMatchers
-import org.scalatest.WordSpecLike
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import akka.testkit.{ImplicitSender, TestKit, TestProbe}
+import java.util.concurrent.TimeUnit
+
 import akka.actor.ActorSystem
 import akka.pattern.gracefulStop
+import akka.testkit.{ImplicitSender, TestKit, TestProbe}
 import akka.util.Timeout
-import concurrent.duration._
-import concurrent.Await
-import com.rabbitmq.client.{ConnectionFactory, Address, Channel}
-import Amqp._
-import ConnectionOwner.{Connected, CreateChannel, Disconnected}
-import java.util.concurrent.TimeUnit
+import akka.util.duration._
+import com.github.sstone.amqp.Amqp._
+import com.github.sstone.amqp.ConnectionOwner.{Connected, CreateChannel, Disconnected}
+import com.rabbitmq.client.{Address, Channel, ConnectionFactory}
+import org.junit.runner.RunWith
+import org.scalatest.WordSpecLike
+import org.scalatest.junit.JUnitRunner
+import org.scalatest.matchers.ShouldMatchers
+
+import scala.concurrent.Await
 
 @RunWith(classOf[JUnitRunner])
 class ConnectionOwnerSpec extends TestKit(ActorSystem("TestSystem")) with WordSpecLike with ShouldMatchers with ImplicitSender {

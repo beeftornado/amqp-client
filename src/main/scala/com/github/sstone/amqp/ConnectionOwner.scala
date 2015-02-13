@@ -35,17 +35,17 @@ object ConnectionOwner {
 
 
   /**
-   * creates an amqp uri from a ConnectionFactory. From the specs:
+   * creates an com.github.sstone.amqp.amqp uri from a ConnectionFactory. From the specs:
    * <ul>
-   * <li>amqp_URI       = "amqp://" amqp_authority [ "/" vhost ]</li>
+   * <li>amqp_URI       = "com.github.sstone.amqp.amqp://" amqp_authority [ "/" vhost ]</li>
    * <li>amqp_authority = [ amqp_userinfo "@" ] host [ ":" port ]</li>
    * <li>amqp_userinfo  = username [ ":" password ]</li>
    * </ul>
    * @param cf connection factory
-   * @return an amqp uri
+   * @return an com.github.sstone.amqp.amqp uri
    */
   def toUri(cf: ConnectionFactory): String = {
-    "amqp://%s:%s@%s:%d/%s".format(cf.getUsername, cf.getPassword, cf.getHost, cf.getPort, cf.getVirtualHost)
+    "com.github.sstone.amqp.amqp://%s:%s@%s:%d/%s".format(cf.getUsername, cf.getPassword, cf.getHost, cf.getPort, cf.getVirtualHost)
   }
 
   def buildConnFactory(host: String = "localhost", port: Int = 5672, vhost: String = "/", user: String = "guest", password: String = "guest"): ConnectionFactory = {

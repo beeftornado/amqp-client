@@ -1,16 +1,18 @@
 package com.github.sstone.amqp
 
-import akka.testkit.{ImplicitSender, TestKit}
-import akka.actor.{ActorRef, Props, ActorSystem}
-import akka.util.Timeout
-import akka.pattern.{ask, gracefulStop}
-import org.scalatest.{BeforeAndAfter, WordSpecLike}
-import org.scalatest.matchers.ShouldMatchers
 import java.util.concurrent.TimeUnit
-import scala.concurrent.Await
-import scala.concurrent.duration._
-import com.rabbitmq.client.ConnectionFactory
+
+import akka.actor.{ActorRef, ActorSystem}
+import akka.pattern.gracefulStop
+import akka.testkit.{ImplicitSender, TestKit}
+import akka.util.Timeout
+import akka.util.duration._
 import com.github.sstone.amqp.Amqp._
+import com.rabbitmq.client.ConnectionFactory
+import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.{BeforeAndAfter, WordSpecLike}
+
+import scala.concurrent.Await
 import scala.util.Random
 
 class ChannelSpec extends TestKit(ActorSystem("TestSystem")) with WordSpecLike with ShouldMatchers with BeforeAndAfter with ImplicitSender {

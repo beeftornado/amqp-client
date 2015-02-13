@@ -6,8 +6,8 @@ import akka.pattern.ask
 import akka.util.Timeout
 import com.github.sstone.amqp.RpcClient.Request
 import com.github.sstone.amqp.Amqp.Publish
-import scala.concurrent.duration._
 import com.rabbitmq.client.ConnectionFactory
+import akka.util.duration._
 
 /**
  * Created by fabrice on 31/12/13.

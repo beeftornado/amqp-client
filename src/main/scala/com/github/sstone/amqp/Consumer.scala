@@ -1,6 +1,6 @@
 package com.github.sstone.amqp
 
-import akka.actor.{ActorRef, Props}
+import akka.actor.{Stash, ActorRef, Props}
 import akka.event.LoggingReceive
 import com.github.sstone.amqp.Amqp._
 import com.rabbitmq.client.AMQP.BasicProperties
@@ -21,7 +21,7 @@ object Consumer {
  * @param listener optional listener actor; if not set, self will be used instead
  * @param channelParams optional channel parameters
  */
-class Consumer(listener: Option[ActorRef], autoack: Boolean = false, init: Seq[Request] = Seq.empty[Request], channelParams: Option[ChannelParameters] = None) extends ChannelOwner(init, channelParams) with UnboundedStash {
+class Consumer(listener: Option[ActorRef], autoack: Boolean = false, init: Seq[Request] = Seq.empty[Request], channelParams: Option[ChannelParameters] = None) extends ChannelOwner(init, channelParams) with Stash {
   import com.github.sstone.amqp.ChannelOwner._
   var consumer: Option[DefaultConsumer] = None
 

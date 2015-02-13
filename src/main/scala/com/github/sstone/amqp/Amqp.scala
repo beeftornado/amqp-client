@@ -6,6 +6,8 @@ import akka.actor.{Actor, ActorRef, ActorRefFactory, Props}
 import com.rabbitmq.client.AMQP.BasicProperties
 import com.rabbitmq.client.{AMQP, Channel, Envelope, ShutdownSignalException}
 
+import scala.collection.JavaConversions._
+
 object Amqp {
 
   /**

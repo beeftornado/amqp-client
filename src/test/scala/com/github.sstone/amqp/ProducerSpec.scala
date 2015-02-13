@@ -1,12 +1,11 @@
 package com.github.sstone.amqp
 
 import akka.testkit.TestProbe
+import akka.util.duration._
 import com.github.sstone.amqp.Amqp.{Binding, Delivery, Publish, _}
 import com.rabbitmq.client.AMQP.BasicProperties
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-
-import scala.concurrent.duration._
 
 @RunWith(classOf[JUnitRunner])
 class ProducerSpec extends ChannelSpec {
