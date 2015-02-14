@@ -180,12 +180,12 @@ class ChannelOwner(init: Seq[Request] = Seq.empty[Request], channelParams: Optio
 
   def disconnected: Receive = LoggingReceive {
     case channel: Channel => {
-      val forwarder = context.actorOf(Props(new Forwarder(channel)), name = "forwarder")
+      val forwarder = context.actorOf(Props(new Forwarder(channel)))
       forwarder ! AddShutdownListener(self)
       forwarder ! AddReturnListener(self)
       onChannel(channel, forwarder)
       requestLog.map(r => self forward r)
-      log.info("got channel %o" format channel)
+      log.info("got channel %s" format channel.toString)
       statusListeners.map(a => a ! Connected)
       context.become(connected(channel, forwarder))
     }

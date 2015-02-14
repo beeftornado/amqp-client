@@ -3,6 +3,7 @@ package com.github.sstone.amqp
 import java.util.concurrent.TimeUnit
 
 import akka.actor.{ActorRef, ActorSystem}
+import akka.dispatch._
 import akka.pattern.gracefulStop
 import akka.testkit.{ImplicitSender, TestKit}
 import akka.util.Timeout
@@ -12,7 +13,6 @@ import com.rabbitmq.client.ConnectionFactory
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.{BeforeAndAfter, WordSpecLike}
 
-import scala.concurrent.Await
 import scala.util.Random
 
 class ChannelSpec extends TestKit(ActorSystem("TestSystem")) with WordSpecLike with ShouldMatchers with BeforeAndAfter with ImplicitSender {

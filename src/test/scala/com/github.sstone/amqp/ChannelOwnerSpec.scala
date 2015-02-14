@@ -13,7 +13,22 @@ import com.rabbitmq.client.GetResponse
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 
-import scala.concurrent.Await
+//import scala.concurrent.Await
+
+import akka.event._
+import akka.dispatch._
+import akka.pattern.ask
+import org.jboss.netty.akka.util.HashedWheelTimer
+import java.util.concurrent.TimeUnit.MILLISECONDS
+import com.typesafe.config.Config
+import com.typesafe.config.ConfigFactory
+import scala.annotation.tailrec
+import org.jboss.netty.akka.util.internal.ConcurrentIdentityHashMap
+import java.io.Closeable
+import akka.dispatch.Await.Awaitable
+import akka.dispatch.Await.CanAwait
+import java.util.concurrent.{ CountDownLatch, TimeoutException, RejectedExecutionException }
+import akka.util._
 
 @RunWith(classOf[JUnitRunner])
 class ChannelOwnerSpec extends ChannelSpec  {

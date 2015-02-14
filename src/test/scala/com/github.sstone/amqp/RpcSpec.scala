@@ -2,6 +2,7 @@ package com.github.sstone.amqp
 
 import java.util.concurrent.TimeUnit
 
+import akka.dispatch._
 import akka.pattern.ask
 import akka.util.duration._
 import com.github.sstone.amqp.Amqp.{Delivery, ExchangeParameters, Publish, QueueParameters, _}
@@ -12,7 +13,6 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{Await, Future}
 
 @RunWith(classOf[JUnitRunner])
 class RpcSpec extends ChannelSpec {

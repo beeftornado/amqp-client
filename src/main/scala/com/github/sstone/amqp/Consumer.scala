@@ -1,6 +1,6 @@
 package com.github.sstone.amqp
 
-import akka.actor.{Stash, ActorRef, Props}
+import akka.actor._
 import akka.event.LoggingReceive
 import com.github.sstone.amqp.Amqp._
 import com.rabbitmq.client.AMQP.BasicProperties

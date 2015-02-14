@@ -1,12 +1,13 @@
 package com.github.sstone.amqp
 
 import akka.actor.{ActorRef, Props}
+import akka.dispatch._
 import akka.event.LoggingReceive
 import com.github.sstone.amqp.Amqp._
 import com.rabbitmq.client.AMQP.BasicProperties
 import com.rabbitmq.client.{Channel, Envelope}
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}
 
 object RpcServer {
@@ -79,11 +80,11 @@ class RpcServer(processor: RpcServer.IProcessor, init: Seq[Request] = Seq.empty[
     case delivery@Delivery(consumerTag: String, envelope: Envelope, properties: BasicProperties, body: Array[Byte]) => {
       log.debug("processing delivery")
       processor.process(delivery).onComplete {
-        case Success(result) => {
+        case Right(result) => {
           sendResponse(result, properties, channel)
           channel.basicAck(envelope.getDeliveryTag, false)
         }
-        case Failure(error) => {
+        case Left(error) => {
           envelope.isRedeliver match {
             // first failure: reject and requeue the message
             case false => {

@@ -1,13 +1,13 @@
 package com.github.sstone.amqp.samples
 
 import akka.actor.ActorSystem
+import akka.util.duration._
 import com.github.sstone.amqp.{RpcServer, ConnectionOwner}
 import com.github.sstone.amqp.Amqp._
 import com.github.sstone.amqp.RpcServer.IProcessor
 import com.github.sstone.amqp.RpcServer.ProcessResult
 import com.rabbitmq.client.ConnectionFactory
 import scala.concurrent.{Future, ExecutionContext}
-import scala.concurrent.duration._
 /**
  * start with mvn exec:java -Dexec.mainClass=com.github.sstone.com.github.sstone.amqp.amqp.samples.BasicRpcServer -Dexec.classpathScope="compile"
  */

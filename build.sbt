@@ -36,7 +36,7 @@ libraryDependencies <++= (scalaVersion) { v: String =>
   else if (v.startsWith("2.9")) {
     val akkaVersion = "2.0.5"
     Seq(
-      "com.typesafe.akka" % "akka-actor" % akkaVersion,
+      "com.typesafe.akka" % "akka-actor" % akkaVersion withJavadoc(),
       "com.rabbitmq" % "amqp-client" % "3.4.3" withJavadoc(),
       "com.typesafe.akka" % "akka-testkit" % akkaVersion % "test",
       "org.scalatest" %% "scalatest" % "1.9.2" % "test",

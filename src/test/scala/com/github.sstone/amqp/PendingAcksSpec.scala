@@ -1,14 +1,14 @@
 package com.github.sstone.amqp
 
-import akka.actor.ActorDSL._
-import akka.actor.{PoisonPill, ActorLogging}
+import java.util.concurrent.TimeUnit
+
+import akka.actor.{Actor, Props, ActorLogging, PoisonPill}
 import akka.testkit.TestProbe
+import akka.util.duration._
 import com.github.sstone.amqp.Amqp._
 import org.junit.runner.RunWith
 import org.scalatest.WordSpecLike
 import org.scalatest.junit.JUnitRunner
-import scala.concurrent.duration._
-import java.util.concurrent.TimeUnit
 
 @RunWith(classOf[JUnitRunner])
 class PendingAcksSpec extends ChannelSpec with WordSpecLike {
@@ -26,17 +26,16 @@ class PendingAcksSpec extends ChannelSpec with WordSpecLike {
       val probe = TestProbe()
 
       // create a consumer that does not ack messages
-      val badListener = actor {
-        new Act with ActorLogging {
-          become {
-            case Delivery(consumerTag, envelope, properties, body) => {
-              log.info("received %s tag = %s redeliver = %s" format (new String(body, "UTF-8"), envelope.getDeliveryTag, envelope.isRedeliver))
-              counter = counter + 1
-              if (counter == 10) probe.ref ! 'done
-            }
+      val badListener = system.actorOf(Props(new Actor with ActorLogging {
+        def receive = {
+          case Delivery(consumerTag, envelope, properties, body) => {
+            log.info("received %s tag = %s redeliver = %s" format (new String(body, "UTF-8"), envelope.getDeliveryTag, envelope.isRedeliver))
+            counter = counter + 1
+            if (counter == 10) probe.ref ! 'done
           }
         }
-      }
+      }))
+
       val consumer = ConnectionOwner.createChildActor(conn, Consumer.props(badListener, autoack = false, channelParams = None), name = Some("badConsumer"))
       val producer = ConnectionOwner.createChildActor(conn, ChannelOwner.props())
       Amqp.waitForConnection(system, consumer, producer).await(1, TimeUnit.SECONDS)
@@ -55,18 +54,17 @@ class PendingAcksSpec extends ChannelSpec with WordSpecLike {
 
       // create a consumer that does ack messages
       var counter1 = 0
-      val goodListener = actor {
-        new Act with ActorLogging {
-          become {
-            case Delivery(consumerTag, envelope, properties, body) => {
-              log.info("received %s tag = %s redeliver = %s" format (new String(body, "UTF-8"), envelope.getDeliveryTag, envelope.isRedeliver))
-              counter1 = counter1 + 1
-              sender ! Ack(envelope.getDeliveryTag)
-              if (counter1 == 10) probe.ref ! 'done
-            }
+      val goodListener = system.actorOf(Props(new Actor with ActorLogging {
+        def receive = {
+          case Delivery(consumerTag, envelope, properties, body) => {
+            log.info("received %s tag = %s redeliver = %s" format (new String(body, "UTF-8"), envelope.getDeliveryTag, envelope.isRedeliver))
+            counter1 = counter1 + 1
+            sender ! Ack(envelope.getDeliveryTag)
+            if (counter1 == 10) probe.ref ! 'done
           }
         }
-      }
+      }))
+
       val consumer1 = ConnectionOwner.createChildActor(conn, Consumer.props(goodListener, autoack = false, channelParams = None), name = Some("goodConsumer"))
       Amqp.waitForConnection(system, consumer1).await(1, TimeUnit.SECONDS)
 

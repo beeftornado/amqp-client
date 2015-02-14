@@ -3,6 +3,7 @@ package com.github.sstone.amqp
 import java.util.concurrent.TimeUnit
 
 import akka.actor.ActorSystem
+import akka.dispatch._
 import akka.pattern.gracefulStop
 import akka.testkit.{ImplicitSender, TestKit, TestProbe}
 import akka.util.Timeout
@@ -15,7 +16,6 @@ import org.scalatest.WordSpecLike
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.matchers.ShouldMatchers
 
-import scala.concurrent.Await
 
 @RunWith(classOf[JUnitRunner])
 class ConnectionOwnerSpec extends TestKit(ActorSystem("TestSystem")) with WordSpecLike with ShouldMatchers with ImplicitSender {
