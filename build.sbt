@@ -47,3 +47,5 @@ libraryDependencies <++= (scalaVersion) { v: String =>
   }
   else Seq()
 }
+
+excludeFilter in unmanagedSources := HiddenFileFilter || "samples"
