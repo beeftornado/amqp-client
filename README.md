@@ -1,8 +1,15 @@
+# *backport_2.9*
+
+I backported sstone's latest version of the amqp-client, which is only published for scala 2.10+ and akka 2.3+, to work
+in scala 2.9.3 and akka 2.0.5. You can safely use this if you're stuck in the past like myself.
+
+[![Build Status](https://travis-ci.org/beeftornado/amqp-client.png?branch=backport_2.9)](https://travis-ci.org/beeftornado/amqp-client)
+
+---
+
 # Simple Scala AMQP client
 
 Simple [AMQP](http://www.amqp.org/) client in Scala/Akka based on the [RabbitMQ](http://www.rabbitmq.com/) java client.
-
-[![Build Status](https://travis-ci.org/sstone/amqp-client.png?branch=scala2.10)](https://travis-ci.org/sstone/amqp-client)
 
 ## Overview
 
