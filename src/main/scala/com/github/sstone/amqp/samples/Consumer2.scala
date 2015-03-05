@@ -1,10 +1,10 @@
 package com.github.sstone.amqp.samples
 
-import akka.actor.{Actor, Props, ActorSystem}
-import com.github.sstone.amqp.{ConnectionOwner, Amqp, Consumer}
+import akka.actor.{Actor, ActorSystem, Props}
+import akka.util.duration._
 import com.github.sstone.amqp.Amqp._
+import com.github.sstone.amqp.{Amqp, ConnectionOwner, Consumer}
 import com.rabbitmq.client.ConnectionFactory
-import scala.concurrent.duration._
 
 object Consumer2 extends App {
   implicit val system = ActorSystem("mySystem")

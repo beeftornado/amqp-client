@@ -1,18 +1,19 @@
 package com.github.sstone.amqp.samples
 
 import akka.actor.ActorSystem
+import akka.dispatch.Future
 import akka.util.duration._
-import com.github.sstone.amqp.{RpcServer, ConnectionOwner}
 import com.github.sstone.amqp.Amqp._
-import com.github.sstone.amqp.RpcServer.IProcessor
-import com.github.sstone.amqp.RpcServer.ProcessResult
+import com.github.sstone.amqp.RpcServer.{IProcessor, ProcessResult}
+import com.github.sstone.amqp.{ConnectionOwner, RpcServer}
 import com.rabbitmq.client.ConnectionFactory
-import scala.concurrent.{Future, ExecutionContext}
+
+import scala.concurrent.ExecutionContext
 /**
  * start with mvn exec:java -Dexec.mainClass=com.github.sstone.com.github.sstone.amqp.amqp.samples.BasicRpcServer -Dexec.classpathScope="compile"
  */
 object BasicRpcServer extends App {
-  import ExecutionContext.Implicits.global
+  import scala.concurrent.ExecutionContext.Implicits.global
 
   implicit val system = ActorSystem("mySystem")
 

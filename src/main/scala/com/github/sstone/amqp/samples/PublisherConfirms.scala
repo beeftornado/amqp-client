@@ -5,8 +5,8 @@ import com.github.sstone.amqp.{ChannelOwner, ConnectionOwner, Amqp}
 import com.github.sstone.amqp.Amqp._
 import com.github.sstone.amqp.RpcServer.{ProcessResult, IProcessor}
 import com.rabbitmq.client.ConnectionFactory
-import scala.concurrent.{Future, ExecutionContext}
-import scala.concurrent.duration._
+import scala.concurrent.ExecutionContext
+import akka.util.duration._
 
 object PublisherConfirms extends App {
   import ExecutionContext.Implicits.global

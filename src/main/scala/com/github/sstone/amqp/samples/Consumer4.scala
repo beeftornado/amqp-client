@@ -7,7 +7,7 @@ import com.github.sstone.amqp.{Amqp, ChannelOwner, Consumer, ConnectionOwner}
 import com.rabbitmq.client.ConnectionFactory
 import java.util.concurrent.TimeUnit
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration._
+import akka.util.duration._
 
 /**
  * AMQP consumer that switches between multiple queues

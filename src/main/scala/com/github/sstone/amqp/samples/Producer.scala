@@ -6,7 +6,7 @@ import com.github.sstone.amqp.Amqp._
 import com.rabbitmq.client.ConnectionFactory
 import com.github.sstone.amqp.Amqp.Publish
 import java.util.concurrent.TimeUnit
-import scala.concurrent.duration._
+import akka.util.duration._
 
 object Producer extends App {
   implicit val system = ActorSystem("mySystem")

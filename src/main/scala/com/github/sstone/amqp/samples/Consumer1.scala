@@ -1,10 +1,10 @@
 package com.github.sstone.amqp.samples
 
-import akka.actor.{Props, Actor, ActorSystem}
-import com.github.sstone.amqp._
+import akka.actor.{Actor, ActorSystem, Props}
+import akka.util.duration._
 import com.github.sstone.amqp.Amqp._
+import com.github.sstone.amqp._
 import com.rabbitmq.client.ConnectionFactory
-import scala.concurrent.duration._
 
 /**
  * simple Consumer sample

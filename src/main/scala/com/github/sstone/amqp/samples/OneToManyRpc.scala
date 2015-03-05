@@ -7,8 +7,7 @@ import com.github.sstone.amqp.Amqp._
 import com.github.sstone.amqp.RpcServer.{ProcessResult, IProcessor}
 import com.github.sstone.amqp.RpcClient.Request
 import akka.util.Timeout
-import concurrent.{ExecutionContext, Future}
-import concurrent.duration._
+import concurrent.{ExecutionContext}
 import util.{Failure, Success}
 import com.rabbitmq.client.ConnectionFactory
 import com.github.sstone.amqp.RpcServer.ProcessResult
@@ -19,6 +18,8 @@ import scala.util.Failure
 import scala.Some
 import com.github.sstone.amqp.Amqp.QueueParameters
 import com.github.sstone.amqp.Amqp.Delivery
+import akka.util.duration._
+import akka.dispatch.Future
 
 object OneToManyRpc extends App {
   import ExecutionContext.Implicits.global
@@ -61,17 +62,17 @@ object OneToManyRpc extends App {
 
   implicit val timeout: Timeout = 2 seconds
 
-  for (i <- 0 to 5) {
-    val request = ("request " + i).getBytes
-    val f = (rpcClient ? Request(List(Publish("amq.direct", "my_key", request)), 3)).mapTo[RpcClient.Response]
-    f.onComplete {
-      case Success(response) => {
-        response.deliveries.foreach(delivery => println(new String(delivery.body)))
-      }
-      case Failure(error) => println(error)
-    }
-  }
-  // wait 10 seconds and shut down
-  Thread.sleep(10000)
+//  for (i <- 0 to 5) {
+//    val request = ("request " + i).getBytes
+//    val f = (rpcClient ? Request(List(Publish("amq.direct", "my_key", request)), 3)).mapTo[RpcClient.Response]
+//    f.onComplete {
+//      case Success(response) => {
+//        response.deliveries.foreach(delivery => println(new String(delivery.body)))
+//      }
+//      case Failure(error) => println(error)
+//    }
+//  }
+//  // wait 10 seconds and shut down
+//  Thread.sleep(10000)
   system.shutdown()
 }
